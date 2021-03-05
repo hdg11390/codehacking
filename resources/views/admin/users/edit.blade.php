@@ -1,5 +1,7 @@
 @extends('layouts.admin')
 @section('content')
+
+
 <h1>Edit User</h1>
 <div class="col-sm-3">
     <img src="{{ $user->photo ? $user->photo->file : '/images/no_img.jpg' }}" alt="" class="img-responsive img-rounded text-center">
@@ -41,9 +43,16 @@
 </div>
 
 <div class="form-group">
-{!! Form::submit('Update User', ['class'=>'btn btn-primary']) !!}    
+{!! Form::submit('Update User', ['class'=>'btn btn-primary col-sm-3 ']) !!}    
 </div>
 
+{!! Form::close() !!}
+<div class="col-sm-6"></div>
+
+{!! Form::open(['method'=>'delete', 'action'=>['AdminUsersController@destroy', $user->id]]) !!}
+<div class="form-group">
+{!! Form::submit('Delete User', ['class'=>'btn btn-danger col-sm-3']) !!}
+</div>
 {!! Form::close() !!}
 
 @include('includes.form_error')

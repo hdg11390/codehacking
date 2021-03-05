@@ -6,6 +6,7 @@ use App\Http\Requests\UsersEditRequest;
 use App\Photo;
 use App\User;
 use App\Role;
+use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
@@ -64,7 +65,8 @@ if(trim($request->password) == ''){
         
         User::create($input);
 
-        
+        Session::flash('create_user', 'A new user has been registered');
+
         return redirect('/admin/users');
     }
 
@@ -121,6 +123,8 @@ if(trim($request->password) == ''){
         }
        
         $user->update($input);
+        Session::flash('update_user', 'The user has been updated');
+
         return redirect('/admin/users');
     }
 
@@ -133,5 +137,11 @@ if(trim($request->password) == ''){
     public function destroy($id)
     {
         //
+      $user = User::findOrFail($id);
+        unlink(public_path() . $user->photo->file );
+        $user->delete();
+        Session::flash('delete_user', 'The user has been deleted');
+
+       return redirect('/admin/users');
     }
 }
